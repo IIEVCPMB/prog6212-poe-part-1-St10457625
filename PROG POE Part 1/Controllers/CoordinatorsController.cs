@@ -9,5 +9,10 @@ namespace PROG_POE_Part_1.Controllers
             return View();
         }
 
+        public IActionResult Verify()
+        {
+            return View();
+        }
     }
 }
+

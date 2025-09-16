@@ -8,5 +8,11 @@ namespace PROG_POE_Part_1.Controllers
         {
             return View();
         }
+
+        public IActionResult Review()
+        {
+            return View();
+        }
     }
 }
+

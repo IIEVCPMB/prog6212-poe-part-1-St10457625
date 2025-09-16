@@ -8,5 +8,15 @@ namespace PROG_POE_Part_1.Controllers
         {
             return View();
         }
+
+        public IActionResult Details()
+        {
+            return View();
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
