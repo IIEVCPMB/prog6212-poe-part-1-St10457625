@@ -2,3 +2,46 @@
     ViewBag.Title = "Add Claim";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-black text-white">
+                <h3>New Claim</h3>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Lecturer ID</label>
+                        <input type="text" class="form-control" placeholder="Enter Lecturer ID (e.g. LID-123456)" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lecturer Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Lecturer Name" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Submitted Date</label>
+                        <input type="date" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <input type="number" class="form-control" placeholder="Enter Claim Amount" step="0.01" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" rows="4" placeholder="Enter claim details..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Supporting Documents</label>
+                        <input type="file" class="form-control" multiple />
+                        <small class="form-text text-muted">Upload receipts, travel logs, etc.</small>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/Claims" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Submit Claim</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

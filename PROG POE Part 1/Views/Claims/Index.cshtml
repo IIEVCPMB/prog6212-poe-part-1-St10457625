@@ -7,3 +7,63 @@
     <h2>Claims</h2>
     <a href="/Claims/Create" class="btn btn-primary">+ New Claim</a>
 </div>
+
+<!-- Past Claims Table -->
+<div class="card shadow">
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark text-white">
+                <tr>
+                    <th>Claim ID</th>
+                    <th>Lecturer ID</th>
+                    <th>Name</th>
+                    <th>Submitted Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CLM-001</td>
+                    <td>LID-023123</td>
+                    <td>Ashley Doe</td>
+                    <td>2025-09-01</td>
+                    <td>R14 000.00</td>
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    <td>
+                        <a href="/Claims/Details/1" class="btn btn-sm btn-outline-primary">
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CLM-002</td>
+                    <td>LID-569034</td>
+                    <td>Jaden Smith</td>
+                    <td>2025-03-21</td>
+                    <td>R16 000.00</td>
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    <td>
+                        <a href="/Claims/Details/2" class="btn btn-sm btn-outline-primary">
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CLM-003</td>
+                    <td>LID-271830</td>
+                    <td>Katie Lemons</td>
+                    <td>2025-08-25</td>
+                    <td>R10 000.00</td>
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    <td>
+                        <a href="/Claims/Details/3" class="btn btn-sm btn-outline-primary">
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
