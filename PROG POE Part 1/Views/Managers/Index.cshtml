@@ -2,3 +2,90 @@
     ViewBag.Title = "Manage Claims";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Management Dashboard</h2>
+    <div>
+        <span class="badge bg-warning me-2">5 Pending</span>
+        <span class="badge bg-success me-2">12 Approved</span>
+        <span class="badge bg-danger">2 Declined</span>
+    </div>
+</div>
+
+<!-- Nav to filter table -->
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">All Claims (19)</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Pending (5)</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Approved (12)</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Declined (2)</a>
+    </li>
+</ul>
+
+<!-- Claims Table -->
+<div class="card shadow mt-3">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark text-white">
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Lecturer</th>
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Submitted Date</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CLM-001</td>
+                        <td>Ashley Doe</td>
+                        <td>AshDoe@example.com</td>
+                        <td>R14 000.00</td>
+                        <td>2025-09-01</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                        <td class="text-center">
+                            <a href="/Managers/Review/1" class="btn btn-sm btn-outline-secondary">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CLM-002</td>
+                        <td>Jaden Smith</td>
+                        <td>JaSmith@example.com</td>
+                        <td>R16 000.00</td>
+                        <td>2025-03-21</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                        <td class="text-center">
+                            <a href="/Managers/Review/2" class="btn btn-sm btn-outline-secondary">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CLM-003</td>
+                        <td>Katie Lemons</td>
+                        <td>KaLemons@example.com</td>
+                        <td>R10 00.00</td>
+                        <td>2025-08-25</td>
+                        <td><span class="badge bg-danger">Declined</span></td>
+                        <td class="text-center">
+                            <a href="/Managers/Review/3" class="btn btn-sm btn-outline-secondary">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
