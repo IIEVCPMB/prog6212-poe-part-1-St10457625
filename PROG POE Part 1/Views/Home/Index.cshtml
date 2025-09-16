@@ -10,3 +10,45 @@
         </h1>
     </div>
 </div>
+
+<div class="container my-5">
+    <div class="row g-4 justify-content-center">
+        <!-- Claims Management -->
+        <div class="col-md-3">
+            <a asp-controller="Claims" asp-action="Index" class="card-link">
+                <div class="card shadow h-100 text-center card-hover">
+                    <img src="~/images/claim icon.png" class="card-img-top " alt="Claims">
+                    <div class="card-body">
+                        <h5 class="card-title">Lecturer Claims</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Program Coordinator Management -->
+        <div class="col-md-3">
+            <a asp-controller="Coordinators" asp-action="Index" class="card-link">
+                <div class="card shadow h-100 text-center card-hover">
+                    <img src="~/images/verify files.jpg" class="card-img-top " alt="Coordinator">
+                    <div class="card-body">
+                        <h5 class="card-title">Program Coordinator</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Academic Management   -->
+        <div class="col-md-3">
+            <a asp-controller="Managers" asp-action="Index" class="card-link">
+                <div class="card shadow h-100 text-center card-hover">
+                    <img src="~/images/management icon.jpg" class="card-img-top " alt="Management">
+                    <div class="card-body">
+                        <h5 class="card-title">Academic Manager</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
