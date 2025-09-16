@@ -2,3 +2,92 @@
     ViewBag.Title = "Verify Claim";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<nav class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/Coordinator">Program Coordinator Dashboard</a></li>
+        <li class="breadcrumb-item active">Verify Claim</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between bg-secondary text-white">
+                <h4>Claim ID: CLM-001</h4>
+                <span class="badge bg-warning">Pending Review</span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3"><strong>Lecturer</strong></div>
+                    <div class="col-sm-9">Ashley Doe</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3"><strong>Email</strong></div>
+                    <div class="col-sm-9">AshDoe@example.com</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3"><strong>Submitted Date</strong></div>
+                    <div class="col-sm-9">01 September 2025</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3"><strong>Amount</strong></div>
+                    <div class="col-sm-9">R 14 000.00</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3"><strong>Description</strong></div>
+                    <div class="col-sm-9">Monthly contract claim for August 2025.</div>
+                </div>
+
+                <div class="my-4">
+                    <h5>Admin Review</h5>
+                    <div class="mb-3">
+                        <label class="form-label">Review Comments</label>
+                        <textarea class="form-control" rows="4" placeholder="Enter your review comments"></textarea>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-flex">
+                    <button type="button" class="btn btn-success">Verify Claim</button>
+                    <button type="button" class="btn btn-danger">Decline Claim</button>
+                    <a href="/Coordinators" class="btn btn-primary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+                <h5>Supporting Documents</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        Receipt
+                        <a href="#" class="btn btn-sm btn-outline-dark">View</a>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        Travel Log
+                        <a href="#" class="btn btn-sm btn-outline-dark">View</a>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        Approval Letter
+                        <a href="#" class="btn btn-sm btn-outline-dark">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review History -->
+        <div class="card shadow mt-3">
+            <div class="card-header bg-secondary text-white">
+                <h5>Review History</h5>
+            </div>
+            <div class="card-body">
+                <small class="text-muted">No previous reviews for this claim</small>
+            </div>
+        </div>
+    </div>
+</div>
