@@ -1,0 +1,105 @@
+[
+  {
+    "Claim_ID": 1,
+    "Lecturer_ID": 12234,
+    "Name": "Robert Martin",
+    "Total_Hours": 10,
+    "Hourly_Rate": 200,
+    "Date_Submitted": "2025-10-15T11:09:26.4698105+02:00",
+    "Total_Amount": 2000,
+    "Status": 2,
+    "ReviewedBy": "Manager",
+    "ReviewedDate": "2025-10-20T11:09:56.2208022+02:00",
+    "Documents": [],
+    "Reviews": [
+      {
+        "ID": 1,
+        "ClaimID": 1,
+        "ReviewerName": "Coordinator",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-20T11:09:46.0760886+02:00",
+        "Decision": 1,
+        "Comments": "Verified successfully."
+      },
+      {
+        "ID": 2,
+        "ClaimID": 1,
+        "ReviewerName": "Manager",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-20T11:09:56.220798+02:00",
+        "Decision": 2,
+        "Comments": "Approved successfully."
+      }
+    ]
+  },
+  {
+    "Claim_ID": 2,
+    "Lecturer_ID": 12832,
+    "Name": "Nick Smith",
+    "Total_Hours": 12,
+    "Hourly_Rate": 250,
+    "Date_Submitted": "2025-10-18T11:09:26.469944+02:00",
+    "Total_Amount": 3000,
+    "Status": 2,
+    "ReviewedBy": null,
+    "ReviewedDate": "0001-01-01T00:00:00",
+    "Documents": [],
+    "Reviews": []
+  },
+  {
+    "Claim_ID": 3,
+    "Lecturer_ID": 12733,
+    "Name": "John Wick",
+    "Total_Hours": 15,
+    "Hourly_Rate": 300,
+    "Date_Submitted": "2025-10-13T11:09:26.4699447+02:00",
+    "Total_Amount": 4500,
+    "Status": 3,
+    "ReviewedBy": null,
+    "ReviewedDate": "0001-01-01T00:00:00",
+    "Documents": [],
+    "Reviews": []
+  },
+  {
+    "Claim_ID": 4,
+    "Lecturer_ID": 23895,
+    "Name": "Jake Smith",
+    "Total_Hours": 20,
+    "Hourly_Rate": 200,
+    "Date_Submitted": "2025-10-20T11:13:58.1757663+02:00",
+    "Total_Amount": 4000,
+    "Status": 2,
+    "ReviewedBy": "Manager",
+    "ReviewedDate": "2025-10-20T11:19:45.3439779+02:00",
+    "Documents": [
+      {
+        "ID": 0,
+        "FileName": "Test (1).docx",
+        "FilePath": "/uploads/2c29f1d5-aa63-4656-b881-9d0301710736.encrypted",
+        "FileSize": 13264,
+        "UploadedDate": "0001-01-01T00:00:00",
+        "IsEncrypted": true
+      }
+    ],
+    "Reviews": [
+      {
+        "ID": 3,
+        "ClaimID": 4,
+        "ReviewerName": "Coordinator",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-20T11:14:02.9647561+02:00",
+        "Decision": 1,
+        "Comments": "Verified successfully."
+      },
+      {
+        "ID": 4,
+        "ClaimID": 4,
+        "ReviewerName": "Manager",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-20T11:19:45.3439734+02:00",
+        "Decision": 2,
+        "Comments": "Approved successfully."
+      }
+    ]
+  }
+]
