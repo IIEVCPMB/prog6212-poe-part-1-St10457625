@@ -101,5 +101,47 @@
         "Comments": "Approved successfully."
       }
     ]
+  },
+  {
+    "Claim_ID": 5,
+    "Lecturer_ID": 12905,
+    "Name": "Kyle White",
+    "Total_Hours": 15,
+    "Hourly_Rate": 300,
+    "Date_Submitted": "2025-10-21T22:08:45.3028112+02:00",
+    "Total_Amount": 4500,
+    "Status": 2,
+    "ReviewedBy": "Manager",
+    "ReviewedDate": "2025-10-21T22:09:21.680184+02:00",
+    "Documents": [
+      {
+        "ID": 0,
+        "FileName": "Test (1).docx",
+        "FilePath": "/uploads/02f77df7-04b9-4f4f-a822-e5ef2f89c773.encrypted",
+        "FileSize": 13264,
+        "UploadedDate": "0001-01-01T00:00:00",
+        "IsEncrypted": true
+      }
+    ],
+    "Reviews": [
+      {
+        "ID": 5,
+        "ClaimID": 5,
+        "ReviewerName": "Coordinator",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-21T22:09:07.6192398+02:00",
+        "Decision": 1,
+        "Comments": "Verified successfully."
+      },
+      {
+        "ID": 6,
+        "ClaimID": 5,
+        "ReviewerName": "Manager",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-21T22:09:21.680181+02:00",
+        "Decision": 2,
+        "Comments": "Approved successfully."
+      }
+    ]
   }
 ]

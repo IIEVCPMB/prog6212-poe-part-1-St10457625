@@ -1,11 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROG_POE_Part_1.Data;
 using PROG_POE_Part_1.Models;
+using PROG_POE_Part_1.Services;
 
 namespace PROG_POE_Part_1.Controllers
 {
     public class CoordinatorsController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
+        private readonly FileEncryptionService _encryptionService;
+
+        public CoordinatorsController(IWebHostEnvironment environment, FileEncryptionService encryptionService)
+        {
+            _environment = environment;
+            _encryptionService = encryptionService;
+        }
         public IActionResult Index(string filter = "all")
         {
             var claims = ClaimData.GetAllClaims();
@@ -94,6 +103,29 @@ namespace PROG_POE_Part_1.Controllers
                 : "Failed to update claim status.";
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadDocument(int claimId, string filePath, string fileName)
+        {
+            var claim = ClaimData.GetClaimByID(claimId);
+            if (claim == null) return NotFound("Claim not found.");
+
+            try
+            {
+                var fullPath = Path.Combine(_environment.WebRootPath, filePath.TrimStart('/'));
+                if (!System.IO.File.Exists(fullPath))
+                    return NotFound("File not found.");
+
+                var decryptedStream = await _encryptionService.DecryptFileAsync(fullPath);
+                decryptedStream.Position = 0;
+
+                return File(decryptedStream, "application/octet-stream", fileName);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error downloading file: {ex.Message}");
+            }
         }
     }
 }
