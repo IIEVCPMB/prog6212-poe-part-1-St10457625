@@ -1,3 +1,5 @@
+using PROG_POE_Part_1.Services;
+
 namespace PROG_POE_Part_1
 {
     public class Program
@@ -8,6 +10,8 @@ namespace PROG_POE_Part_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<FileEncryptionService>();
 
             var app = builder.Build();
 
