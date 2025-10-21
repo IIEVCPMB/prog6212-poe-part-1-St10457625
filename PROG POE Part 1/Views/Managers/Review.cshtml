@@ -1,95 +1,189 @@
-﻿@{
-    ViewBag.Title = "Claim Review";
+﻿@model PROG_POE_Part_1.Models.Claim
+
+@{
+    ViewBag.Title = $"Review Claim #{Model.Claim_ID}";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<nav class="mb-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item"><a href="/Admin">Admin Dashboard</a></li>
-        <li class="breadcrumb-item active">Review Claim</li>
-    </ol>
-</nav>
+<div class="container py-4">
 
-<div class="row">
-    <div class="col-lg-8">
-        <div class="card shadow">
-            <div class="card-header d-flex justify-content-between bg-black text-white">
-                <h4>Claim ID: CLM-001</h4>
-                <span class="badge bg-warning">Pending Review</span>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Lecturer</strong></div>
-                    <div class="col-sm-9">Ashley Doe</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Email</strong></div>
-                    <div class="col-sm-9">AshDoe@example.com</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Submitted Date</strong></div>
-                    <div class="col-sm-9">01 September 2025</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Amount</strong></div>
-                    <div class="col-sm-9">R 14 000.00</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Description</strong></div>
-                    <div class="col-sm-9">Monthly contract claim for August 2025.</div>
-                </div>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+        <h2 class="fw-bold text-primary">
+            <i class="bi bi-clipboard-check me-2"></i> Claim Review - #@Model.Claim_ID
+        </h2>
+        <span class="badge fs-6 px-3 py-2 @(Model.Status == PROG_POE_Part_1.Models.Status.Pending ? "bg-warning text-dark" :
+                          Model.Status == PROG_POE_Part_1.Models.Status.Approved ? "bg-success" : "bg-danger")">
+            @Model.Status
+        </span>
+    </div>
 
-                <div class="my-4">
-                    <h5>Admin Review</h5>
-                    <div class="mb-3">
-                        <label class="form-label">Review Comments</label>
-                        <textarea class="form-control" rows="4" placeholder="Enter your review comments"></textarea>
-                    </div>
+    <!-- Claim Details -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-light fw-semibold">
+            <i class="bi bi-info-circle me-2"></i>Claim Details
+        </div>
+        <div class="card-body">
+            <div class="row gy-3">
+                <div class="col-md-4"><strong>Lecturer:</strong> @Model.Name (@Model.Lecturer_ID)</div>
+                <div class="col-md-4"><strong>Date Submitted:</strong> @Model.Date_Submitted:yyyy-MM-dd</div>
+                <div class="col-md-4">
+                    <strong>Status:</strong>
+                    <span class="badge @(Model.Status == PROG_POE_Part_1.Models.Status.Pending ? "bg-warning text-dark" :
+                                         Model.Status == PROG_POE_Part_1.Models.Status.Verified ? "bg-success" :
+                                         Model.Status == PROG_POE_Part_1.Models.Status.Approved ? "bg-success" : "bg-danger")">
+                        @Model.Status
+                    </span>
                 </div>
-
-                <div class="d-grid gap-2 d-flex">
-                    <button type="button" class="btn btn-success">Approve Claim</button>
-                    <button type="button" class="btn btn-danger">Decline Claim</button>
-                    <a href="/Managers" class="btn btn-primary">Back to Dashboard</a>
+                <div class="col-md-4"><strong>Total Hours:</strong> @Model.Total_Hours</div>
+                <div class="col-md-4"><strong>Hourly Rate:</strong> R @Model.Hourly_Rate</div>
+                <div class="col-md-4">
+                    <strong>Total Amount:</strong>
+                    <span class="fw-bold text-success">R @(Model.Total_Hours* Model.Hourly_Rate)</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-4">
-        <div class="card shadow">
-            <div class="card-header bg-black text-white">
-                <h5>Supporting Documents</h5>
+    <!-- Uploaded Documents -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-light fw-semibold">
+            <i class="bi bi-folder2-open me-2"></i>Uploaded Documents
+        </div>
+        <div class="card-body">
+            @if (Model.Documents.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    @foreach (var doc in Model.Documents)
+                    {
+                        <div class="col">
+                            <div class="card border-secondary h-100 hover-shadow-sm">
+                                <div class="card-body d-flex flex-column">
+                                    <p class="text-truncate mb-3" title="@doc.FileName">
+                                        <i class="bi bi-file-earmark-text me-1 text-primary"></i>@doc.FileName
+                                    </p>
+                                    <a asp-action="DownloadDocument"
+                                       asp-route-claimId="@Model.Claim_ID"
+                                       asp-route-filePath="@doc.FilePath"
+                                       asp-route-fileName="@doc.FileName"
+                                       class="btn btn-outline-primary btn-sm mt-auto">
+                                        <i class="bi bi-download me-1"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-muted fst-italic">No documents uploaded.</div>
+            }
+        </div>
+    </div>
+
+    <!-- Actions -->
+    @if (Model.Status == PROG_POE_Part_1.Models.Status.Verified)
+    {
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-header bg-light fw-semibold">
+                <i class="bi bi-check2-square me-2"></i>Review Actions (Verified)
             </div>
             <div class="card-body">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        Receipt
-                        <a href="#" class="btn btn-sm btn-outline-dark">View</a>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        Travel Log
-                        <a href="#" class="btn btn-sm btn-outline-dark">View</a>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        Approval Letter
-                        <a href="#" class="btn btn-sm btn-outline-dark">View</a>
+                <div class="d-flex gap-2">
+                    <form asp-action="Approve" method="post">
+                        <input type="hidden" name="id" value="@Model.Claim_ID" />
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-check-circle me-1"></i> Approve
+                        </button>
+                    </form>
+
+                    <button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#declineForm">
+                        <i class="bi bi-x-circle me-1"></i> Decline
+                    </button>
+                </div>
+
+                <div class="collapse mt-4" id="declineForm">
+                    <div class="card border-danger shadow-sm">
+                        <div class="card-body">
+                            <form asp-action="Decline" method="post">
+                                <input type="hidden" name="id" value="@Model.Claim_ID" />
+                                <div class="mb-3">
+                                    <label for="comments" class="form-label fw-semibold">Reason for Decline</label>
+                                    <textarea id="comments" name="comments" class="form-control" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <i class="bi bi-send"></i> Submit Decline
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    }
+    else if (Model.Status == PROG_POE_Part_1.Models.Status.Pending)
+    {
+        <div class="alert alert-warning shadow-sm border-0">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            This claim must first be <strong>verified by the Programme Coordinator</strong> before the manager can take action.
+        </div>
+    }
+    else if (Model.Status == PROG_POE_Part_1.Models.Status.Declined)
+    {
+        <div class="alert alert-danger shadow-sm border-0">
+            <i class="bi bi-x-octagon-fill me-2"></i>
+            This claim was <strong>declined by the Programme Coordinator</strong> and cannot be reviewed further.
+        </div>
+    }
+    else if (Model.Status == PROG_POE_Part_1.Models.Status.Approved)
+    {
+        <div class="alert alert-success shadow-sm border-0">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            This claim has already been <strong>approved by the manager</strong>.
+        </div>
+    }
 
-        <!-- Review History -->
-        <div class="card shadow mt-3">
-            <div class="card-header bg-black text-white">
-                <h5>Review History</h5>
-            </div>
-            <div class="card-body">
-                <small class="text-muted">No previous reviews for this claim</small>
+    <!-- Claim Reviews (Collapsible Sidebar) -->
+    <div class="me-4" style="width: 350px; z-index: 1050;">
+        <div class="accordion shadow-sm" id="reviewAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingReviews">
+                    <button class="accordion-button collapsed bg-light fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseReviews"
+                            aria-expanded="false"
+                            aria-controls="collapseReviews">
+                        <i class="bi bi-chat-left-text me-2 text-primary"></i> Claim Reviews
+                    </button>
+                </h2>
+                <div id="collapseReviews"
+                     class="accordion-collapse collapse"
+                     aria-labelledby="headingReviews"
+                     data-bs-parent="#reviewAccordion">
+                    <div class="accordion-body" style="max-height: 400px; overflow-y: auto;">
+                        @if (ViewBag.Reviews != null && ((List<PROG_POE_Part_1.Models.ClaimReview>)ViewBag.Reviews).Any())
+                        {
+                            foreach (var review in (List<PROG_POE_Part_1.Models.ClaimReview>)ViewBag.Reviews)
+                            {
+                                <div class="border-bottom mb-3 pb-2">
+                                    <strong>@review.ReviewerName</strong>
+                                    <span class="text-muted small">(@review.ReviewerRole)</span><br />
+                                    <span class="badge bg-secondary">@review.Decision</span>
+                                    <div class="text-muted small">@review.ReviewDate.ToString("yyyy-MM-dd HH:mm")</div>
+                                    <div class="mt-2 fst-italic">@review.Comments</div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-muted fst-italic">No previous reviews yet.</div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
-
-
