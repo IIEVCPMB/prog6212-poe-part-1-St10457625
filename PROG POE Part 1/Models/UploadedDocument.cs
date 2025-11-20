@@ -1,7 +1,10 @@
-﻿namespace PROG_POE_Part_1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PROG_POE_Part_1.Models
 {
     public class UploadedDocument
     {
+        [Key]
         public int ID { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }

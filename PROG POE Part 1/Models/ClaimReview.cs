@@ -1,7 +1,11 @@
-﻿namespace PROG_POE_Part_1.Models
+﻿using PROG_POE_Part_1.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace PROG_POE_Part_1.Models
 {
     public class ClaimReview
     {
+        [Key]
         public int ID { get; set; }
         public int ClaimID { get; set; }
         public string ReviewerName { get; set; } = string.Empty;
