@@ -22,17 +22,56 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Claims" asp-action="Index">Claims</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Coordinators" asp-action="Index">Verification</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Managers" asp-action="Index">Management</a>
-                        </li>
+
+                        @if (Context.Session.GetString("UserRole") == "HR")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="HR" asp-action="Index">HR</a>
+                            </li>
+                        }
+                        else if (Context.Session.GetString("UserRole") == "Lecturer")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Claims" asp-action="Index">Claims</a>
+                            </li>
+                        }
+                        else if (Context.Session.GetString("UserRole") == "Coordinator")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Coordinators" asp-action="Index">Verification</a>
+                            </li>
+                        }
+                        else if (Context.Session.GetString("UserRole") == "Manager")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Managers" asp-action="Index">Management</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <!--- Login/Logout -->
+                    <ul class="navbar-nav">
+                        @if (Context.Session.GetString("UserEmail") != null)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-white">
+                                    Welcome, @Context.Session.GetString("FullName")
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-danger btn-sm ms-2" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
