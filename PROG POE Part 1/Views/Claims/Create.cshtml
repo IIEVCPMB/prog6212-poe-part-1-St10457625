@@ -10,23 +10,31 @@
             <div class="card-header bg-black text-white">
                 <h3>New Claim</h3>
             </div>
+            @if (ViewBag.ErrorList != null)
+            {
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (var e in ViewBag.ErrorList)
+                        {
+                            <li>@e</li>
+                        }
+                    </ul>
+                </div>
+            }
             <div class="card-body">
                 <form asp-action="Create" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
-                    @* Hidden Claim_ID (auto-assigned) *@
                     <input type="hidden" asp-for="Claim_ID" />
 
                     <div class="mb-3">
-                        <label asp-for="Lecturer_ID" class="form-label"></label>
-                        <input asp-for="Lecturer_ID" class="form-control" placeholder="Enter Lecturer ID (e.g. LID-123456)" />
-                        <span asp-validation-for="Lecturer_ID" class="text-danger"></span>
+                        <label class="form-label">Lecturer</label>
+                        <input class="form-control" value="@Model.Name" readonly />
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" placeholder="Enter Lecturer Name" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <label class="form-label">Name</label>
+                        <input asp-for="Name" class="form-control" readonly />
                     </div>
 
                     <div class="mb-3">
@@ -37,14 +45,22 @@
 
                     <div class="mb-3">
                         <label asp-for="Total_Hours" class="form-label"></label>
-                        <input asp-for="Total_Hours" class="form-control" type="number" step="0.1" placeholder="Enter Hours Worked" />
+                        <input asp-for="Total_Hours" id="hours" class="form-control" type="number" step="0.1" min="0" placeholder="Enter Hours Worked" />
+                        <small id="hours-error" class="text-danger d-none">Hours must be greater than 0.</small>
                         <span asp-validation-for="Total_Hours" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Hourly_Rate" class="form-label"></label>
-                        <input asp-for="Hourly_Rate" class="form-control" type="number" step="0.01" placeholder="Enter Hourly Rate" />
+                        <input asp-for="Hourly_Rate" id="rate" class="form-control" type="number" step="0.01" min="0" placeholder="Enter Hourly Rate" />
+                        <small id="rate-error" class="text-danger d-none">Hourly rate must be greater than 0.</small>
                         <span asp-validation-for="Hourly_Rate" class="text-danger"></span>
+                    </div>
+
+                    <!-- Auto calculate total payment -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Total Payment (Auto Calculated)</label>
+                        <input class="form-control bg-light" id="totalPayment" type="text" readonly />
                     </div>
 
                     <div class="mb-3">
@@ -55,7 +71,7 @@
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a href="/Claims" class="btn btn-secondary me-md-2">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Submit Claim</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit Claim</button>
                     </div>
                 </form>
 
@@ -74,4 +90,40 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function calculateTotal() {
+            let hours = parseFloat($("#hours").val());
+            let rate = parseFloat($("#rate").val());
+
+            let valid = true;
+
+            if (isNaN(hours) || hours <= 0) {
+                $("#hours-error").removeClass("d-none");
+                valid = false;
+            } else {
+                $("#hours-error").addClass("d-none");
+            }
+
+            if (isNaN(rate) || rate <= 0) {
+                $("#rate-error").removeClass("d-none");
+                valid = false;
+            } else {
+                $("#rate-error").addClass("d-none");
+            }
+
+            $("#submitBtn").prop("disabled", !valid);
+
+            if (valid) {
+                let total = hours * rate;
+                $("#totalPayment").val("R " + total.toFixed(2));
+            } else {
+                $("#totalPayment").val("");
+            }
+        }
+
+        $("#hours, #rate").on("input", calculateTotal);
+    </script>
 }
