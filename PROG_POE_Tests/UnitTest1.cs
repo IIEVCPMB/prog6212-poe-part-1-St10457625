@@ -12,7 +12,7 @@ namespace PROG_POE_Part_1.Tests
         public void Test1_AddBook_Succes()
         {
             //Create a new Book
-            var initialCount = ClaimData.GetAllClaims().Count;
+            var initialCount = ClaimService.GetAllClaimsAsync().Count;
 
             var newClaim = new Claim
             {

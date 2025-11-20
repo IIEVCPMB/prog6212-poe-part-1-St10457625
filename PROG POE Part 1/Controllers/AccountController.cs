@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PROG_POE_1.Models;
-using PROG_POE_Part_1.Data;
 using PROG_POE_Part_1.Models;
+using PROG_POE_Part_1.Data;
 using PROG_POE_Part_1.Services;
 
 namespace PROG_POE_Part_1.Controllers
