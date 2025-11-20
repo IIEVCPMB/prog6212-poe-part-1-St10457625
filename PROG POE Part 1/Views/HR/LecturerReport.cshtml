@@ -1,0 +1,48 @@
+﻿@model PROG_POE_Part_1.Models.ReportViewModel
+@{
+    var claims = ViewBag.Claims as List<PROG_POE_Part_1.Models.Claim>;
+}
+
+<h2>Report for @Model.Name @Model.Surname</h2>
+
+<p><strong>Lecturer ID:</strong> @Model.UserID</p>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Hourly Rate:</strong> R @Model.HourlyRate</p>
+
+<hr />
+
+<h3>Summary</h3>
+
+<p><strong>Total Hours:</strong> @Model.TotalHours</p>
+<p><strong>Total Payment:</strong> R @Model.TotalPayment</p>
+
+<hr />
+
+<h3>Approved Claims</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Date Submitted</th>
+            <th>Total Hours</th>
+            <th>Payment</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in claims)
+        {
+            <tr>
+                <td>@c.Claim_ID</td>
+                <td>@c.Date_Submitted.ToShortDateString()</td>
+                <td>@c.Total_Hours</td>
+                <td>@c.Total_Payment</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="ExportLecturerReportPdf"
+   asp-route-id="@Model.UserID"
+   class="btn btn-danger mt-3">
+    Download PDF
+</a>

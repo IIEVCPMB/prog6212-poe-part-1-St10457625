@@ -1,0 +1,58 @@
+﻿@model PROG_POE_Part_1.Models.User
+
+@{
+    ViewBag.Title = "Add New User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Add New User</h2>
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input asp-for="Surname" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select asp-for="Role" class="form-control" required>
+                <option value="Lecturer">Lecturer</option>
+                <option value="Coordinator">Programme Coordinator</option>
+                <option value="Manager">Academic Manager</option>
+                <option value="HR">HR (Super User)</option>
+            </select>
+        </div>
+
+        <div class="mb-3" id="rateField">
+            <label class="form-label">Hourly Rate</label>
+            <input asp-for="HourlyRate" class="form-control" />
+        </div>
+
+        <button class="btn btn-success">Create User</button>
+        <a href="/HR/Users" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script>
+    const roleSelect = document.querySelector("[name='Role']");
+    const rateField = document.getElementById("rateField");
+
+    function toggleRate() {
+        rateField.style.display = roleSelect.value === "Lecturer" ? "block" : "none";
+    }
+
+    roleSelect.addEventListener("change", toggleRate);
+    toggleRate();
+</script>

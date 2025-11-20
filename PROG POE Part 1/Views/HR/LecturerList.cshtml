@@ -1,0 +1,29 @@
+﻿@model List<PROG_POE_Part_1.Models.LecturerSummaryViewModel>
+
+<h2>Lecturer Reports</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Lecturer ID</th>
+            <th>Name</th>
+            <th>Report</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.UserID</td>
+                <td>@item.FullName</td>
+                <td>
+                    <a asp-action="LecturerReport"
+                       asp-route-id="@item.UserID"
+                       class="btn btn-primary btn-sm">
+                        View Report
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
