@@ -143,5 +143,122 @@
         "Comments": "Approved successfully."
       }
     ]
+  },
+  {
+    "Claim_ID": 6,
+    "Lecturer_ID": 21896,
+    "Name": "Kyle Lee",
+    "Total_Hours": 15,
+    "Hourly_Rate": 175,
+    "Date_Submitted": "2025-10-22T17:58:14.6521788+02:00",
+    "Total_Amount": 2625,
+    "Status": 3,
+    "ReviewedBy": "Coordinator",
+    "ReviewedDate": "2025-10-22T17:58:37.5115531+02:00",
+    "Documents": [
+      {
+        "ID": 0,
+        "FileName": "Test (1) (2).docx",
+        "FilePath": "/uploads/4aa6d413-c07a-4023-ab00-663db2eee823.encrypted",
+        "FileSize": 13264,
+        "UploadedDate": "0001-01-01T00:00:00",
+        "IsEncrypted": true
+      }
+    ],
+    "Reviews": [
+      {
+        "ID": 7,
+        "ClaimID": 6,
+        "ReviewerName": "Coordinator",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-22T17:58:37.5115481+02:00",
+        "Decision": 3,
+        "Comments": "test"
+      }
+    ]
+  },
+  {
+    "Claim_ID": 7,
+    "Lecturer_ID": 23785,
+    "Name": "Micah Napier",
+    "Total_Hours": 15,
+    "Hourly_Rate": 200,
+    "Date_Submitted": "2025-10-22T17:59:10.4956584+02:00",
+    "Total_Amount": 3000,
+    "Status": 2,
+    "ReviewedBy": "Manager",
+    "ReviewedDate": "2025-10-22T17:59:31.4909434+02:00",
+    "Documents": [
+      {
+        "ID": 0,
+        "FileName": "Test (1) (2) (2).docx",
+        "FilePath": "/uploads/66051c04-d37c-4df8-9b06-fc6ba96b076b.encrypted",
+        "FileSize": 13264,
+        "UploadedDate": "0001-01-01T00:00:00",
+        "IsEncrypted": true
+      }
+    ],
+    "Reviews": [
+      {
+        "ID": 8,
+        "ClaimID": 7,
+        "ReviewerName": "Coordinator",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-22T17:59:15.0039853+02:00",
+        "Decision": 1,
+        "Comments": "Verified successfully."
+      },
+      {
+        "ID": 9,
+        "ClaimID": 7,
+        "ReviewerName": "Manager",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-22T17:59:31.4909406+02:00",
+        "Decision": 2,
+        "Comments": "Approved successfully."
+      }
+    ]
+  },
+  {
+    "Claim_ID": 8,
+    "Lecturer_ID": 90124,
+    "Name": "Tyler Blake",
+    "Total_Hours": 20,
+    "Hourly_Rate": 300,
+    "Date_Submitted": "2025-10-22T18:00:15.488842+02:00",
+    "Total_Amount": 6000,
+    "Status": 3,
+    "ReviewedBy": "Manager",
+    "ReviewedDate": "2025-10-22T18:00:29.2122432+02:00",
+    "Documents": [
+      {
+        "ID": 0,
+        "FileName": "Test (1) (2) (2).docx",
+        "FilePath": "/uploads/44d0d177-43d8-4484-814d-46723de10e1d.encrypted",
+        "FileSize": 13264,
+        "UploadedDate": "0001-01-01T00:00:00",
+        "IsEncrypted": true
+      }
+    ],
+    "Reviews": [
+      {
+        "ID": 10,
+        "ClaimID": 8,
+        "ReviewerName": "Coordinator",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-22T18:00:19.6941933+02:00",
+        "Decision": 1,
+        "Comments": "Verified successfully."
+      },
+      {
+        "ID": 11,
+        "ClaimID": 8,
+        "ReviewerName": "Manager",
+        "ReviewerRole": "Coordinator",
+        "ReviewDate": "2025-10-22T18:00:29.2122406+02:00",
+        "Decision": 3,
+        "Comments": "Test"
+      }
+    ]
   }
 ]
