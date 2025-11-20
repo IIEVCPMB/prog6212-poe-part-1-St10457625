@@ -1,83 +1,134 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PROG_POE_Part_1.Data;
+using Microsoft.EntityFrameworkCore;
 using PROG_POE_Part_1.Models;
 using PROG_POE_Part_1.Services;
+using PROG_POE_Part_1.Data;
+using System;
 
-namespace PROG_POE_Part_1.Controllers
+namespace PROG6212_POE_Part_Final.Controllers
 {
     public class CoordinatorsController : Controller
     {
         private readonly IWebHostEnvironment _environment;
         private readonly FileEncryptionService _encryptionService;
+        private readonly ClaimService _claimService;
+        private readonly AppDbContext _context;
 
-        public CoordinatorsController(IWebHostEnvironment environment, FileEncryptionService encryptionService)
+        public CoordinatorsController(IWebHostEnvironment environment, FileEncryptionService encryptionService, ClaimService claimService, AppDbContext context)
         {
             _environment = environment;
             _encryptionService = encryptionService;
+            _claimService = claimService;
+            _context = context;
         }
-        public IActionResult Index(string filter = "all")
-        {
-            var claims = ClaimData.GetAllClaims();
-            ViewBag.Filter = filter;
 
-            claims = filter.ToLower() switch
+        private bool IsCoordinator()
+            => HttpContext.Session.GetString("UserRole") == "Coordinator";
+
+        private IActionResult BlockNonCoordinator()
+        {
+            TempData["Error"] = "Login to access Coordinator pages.";
+            return RedirectToAction("Login", "Account");
+        }
+
+        public async Task<IActionResult> Index(string filter = "all")
+        {
+            if (!IsCoordinator()) return BlockNonCoordinator();
+
+            var allClaims = await _claimService.GetAllClaimsAsync();
+
+            var claims = filter.ToLower() switch
             {
-                "pending" => ClaimData.GetClaimsByStatus(Status.Pending),
-                "verified" => ClaimData.GetClaimsByStatus(Status.Verified),
-                "declined" => ClaimData.GetClaimsByStatus(Status.Declined),
-                _ => claims
+                "pending" => allClaims.Where(c => c.Status == Status.Pending).ToList(),
+                "verified" => allClaims.Where(c => c.Status == Status.Verified).ToList(),
+                "declined" => allClaims.Where(c => c.Status == Status.Declined).ToList(),
+                _ => allClaims
             };
 
-            ViewBag.PendingCount = ClaimData.GetPendingCount();
-            ViewBag.VerifiedCount = ClaimData.GetVerifiedCount();
-            ViewBag.DeclinedCount = ClaimData.GetDeclinedCount();
+            ViewBag.Filter = filter;
+            ViewBag.PendingCount = allClaims.Count(c => c.Status == Status.Pending);
+            ViewBag.VerifiedCount = allClaims.Count(c => c.Status == Status.Verified);
+            ViewBag.DeclinedCount = allClaims.Count(c => c.Status == Status.Declined);
 
             return View(claims);
         }
 
-        public IActionResult Verify(int id)
+        public async Task<IActionResult> Verify(int id)
         {
-            var claim = ClaimData.GetClaimByID(id);
+            var claim = await _context.Claims
+                .Include(c => c.Documents)
+                .Include(c => c.Reviews)
+                .FirstOrDefaultAsync(c => c.Claim_ID == id);
+
             if (claim == null)
-            {
-                TempData["Error"] = "Claim not found.";
-                return RedirectToAction("Index");
-            }
+                return NotFound();
 
             return View(claim);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Approve(int id, string? comments)
+        public async Task<IActionResult> Approve(int id, string? comments)
         {
-            var claim = ClaimData.GetClaimByID(id);
+            if (!IsCoordinator()) return BlockNonCoordinator();
+
+            var claim = await _claimService.GetClaimByIDAsync(id);
             if (claim == null)
             {
                 TempData["Error"] = "Claim not found.";
                 return RedirectToAction("Index");
             }
 
-            if (claim.Status != Status.Pending)
+            if (!WorkflowService.CanVerify(claim))
             {
-                TempData["Error"] = "Only pending claims can be verified.";
+                TempData["Error"] = "This claim cannot be verified according to workflow rules.";
                 return RedirectToAction("Index");
             }
 
-            bool updated = ClaimData.UpdateClaimStatus(id, Status.Verified, "Coordinator", comments ?? "Verified successfully.");
+            var coordinatorId = HttpContext.Session.GetInt32("UserID");
+            if (!coordinatorId.HasValue)
+            {
+                TempData["Error"] = "Session expired. Please log in again.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            claim.Status = Status.Verified;
+            claim.ReviewedBy = coordinatorId.Value; // Store numeric UserID
+            claim.ReviewedDate = DateTime.Now;
+
+            bool updated = await _claimService.UpdateClaimAsync(claim);
 
             TempData[updated ? "Success" : "Error"] = updated
                 ? $"Claim #{id} verified successfully and sent to Manager for review."
                 : "Failed to update claim status.";
+
+            var userName = HttpContext.Session.GetString("FullName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            var review = new ClaimReview
+            {
+                ClaimID = claim.Claim_ID,
+                ReviewerName = userName,
+                ReviewerRole = userRole,
+                Decision = Status.Verified,
+                Comments = "Claim verified and forwarded to manager.",
+                ReviewDate = DateTime.Now
+            };
+
+            _context.ClaimReviews.Add(review);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Decline(int id, string comments)
+        public async Task<IActionResult> Decline(int id, string comments)
         {
-            var claim = ClaimData.GetClaimByID(id);
+            if (!IsCoordinator()) return BlockNonCoordinator();
+
+            var claim = await _claimService.GetClaimByIDAsync(id);
             if (claim == null)
             {
                 TempData["Error"] = "Claim not found.";
@@ -96,11 +147,39 @@ namespace PROG_POE_Part_1.Controllers
                 return RedirectToAction("Verify", new { id });
             }
 
-            bool updated = ClaimData.UpdateClaimStatus(id, Status.Declined, "Coordinator", comments);
+            var coordinatorId = HttpContext.Session.GetInt32("UserID");
+            if (!coordinatorId.HasValue)
+            {
+                TempData["Error"] = "Session expired. Please log in again.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            claim.Status = Status.Declined;
+            claim.ReviewedBy = coordinatorId.Value; // Store numeric UserID
+            claim.ReviewedDate = DateTime.Now;
+
+            bool updated = await _claimService.UpdateClaimAsync(claim);
 
             TempData[updated ? "Success" : "Error"] = updated
                 ? $"Claim #{id} declined. Lecturer will be notified."
                 : "Failed to update claim status.";
+
+            var userName = HttpContext.Session.GetString("FullName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            var review = new ClaimReview
+            {
+                ClaimID = claim.Claim_ID,
+                ReviewerName = userName,
+                ReviewerRole = userRole,
+                Decision = Status.Declined,
+                Comments = comments,
+                ReviewDate = DateTime.Now
+            };
+
+            _context.ClaimReviews.Add(review);
+            await _context.SaveChangesAsync();
+
 
             return RedirectToAction("Index");
         }
@@ -108,7 +187,9 @@ namespace PROG_POE_Part_1.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadDocument(int claimId, string filePath, string fileName)
         {
-            var claim = ClaimData.GetClaimByID(claimId);
+            if (!IsCoordinator()) return BlockNonCoordinator();
+
+            var claim = await _claimService.GetClaimByIDAsync(claimId);
             if (claim == null) return NotFound("Claim not found.");
 
             try
