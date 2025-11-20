@@ -47,7 +47,7 @@
                                   claim.Status == PROG_POE_Part_1.Models.Status.Verified ? "success" :
                               claim.Status == PROG_POE_Part_1.Models.Status.Approved ? "success" :
                                   "danger"
-                                                        )">@claim.Status</span>
+                                                                                                                )">@claim.Status</span>
                     </td>
                     <td class="text-center">
                         <a asp-action="Verify" asp-controller="Coordinators" asp-route-id="@claim.Claim_ID" class="btn btn-sm btn-outline-dark">View</a>
