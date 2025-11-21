@@ -63,6 +63,7 @@ namespace PROG6212_POE_Part_Final.Controllers
             }
         }
 
+        // Approve/Revivew
         public async Task<IActionResult> Review(int id)
         {
             var claim = await _context.Claims
